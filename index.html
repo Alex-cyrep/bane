@@ -225,8 +225,17 @@
   @media(max-width:800px){
     .gallery{grid-template-columns:repeat(2,1fr)}
     .hero-stats{gap:26px}
-    .address{display:none}
-    nav ul{display:none}
+     .address{
+    display:inline-flex;        /* было display:none — теперь показываем */
+    order: 3;                   /* уводим вниз, под логотип и кнопку телефона */
+    width: 100%;                /* растягиваем на всю ширину */
+    justify-content: center;    /* центрируем текст */
+    font-size: .82rem;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);   /* тонкая линия-разделитель */
+  }
+  nav ul{display:none}
+}
   }
 </style>
 </head>
