@@ -248,6 +248,20 @@
     .hero-stats{gap:26px}
     nav ul{display:none}
   }
+  .bath-img{
+  background: var(--panel-2); /* на случай, пока фото грузится */
+  overflow: hidden;
+}
+.bath-img img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* фото заполняет блок без искажений */
+  object-position: center;
+  z-index: 1;
+}
+.bath-img .badge{ z-index: 2; } 
 </style>
 </head>
 <body>
@@ -297,7 +311,7 @@
   <span class="badge">🔥 Хит бронирований</span>
   <img src="image/petr.jpg" alt="Баня №1 — парная на дровах">
       </div>
-      <div class="bath-body">
+           <div class="bath-body">
         <h3>Баня №1 «Для большой компании»</h3>
         <div class="sub">Большая семейная · русская парная</div>
         <p class="desc">Просторная баня на дровах для большой компании или семьи. Русская парная, комфортная зона отдыха и летняя веранда.</p>
