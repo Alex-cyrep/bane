@@ -263,11 +263,20 @@
 }
 .bath-img .badge{ z-index: 2; } 
   /* Фото в галерее */
+.gallery{
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);  /* было 4 → стало 3 */
+  grid-auto-rows: 240px;                  /* было 140px → стало 240px */
+}
 .gallery div{
+  border-radius: 16px;
+  border: 1px solid var(--border);
   overflow: hidden;
   position: relative;
-  padding: 0;
+  transition: .3s;
 }
+.gallery div:hover{ transform: scale(1.02); border-color: var(--accent); }
 .gallery div img{
   width: 100%;
   height: 100%;
@@ -275,9 +284,11 @@
   object-position: center;
   transition: transform .4s;
 }
-.gallery div:hover img{
-  transform: scale(1.06);   /* лёгкий зум при наведении */
-}
+.gallery div:hover img{ transform: scale(1.06); }
+
+/* Первая плитка — большая (2×2), шестая — широкая (на 2 колонки) */
+.gallery div:nth-child(1){ grid-column: span 2; grid-row: span 2; }
+.gallery div:nth-child(6){ grid-column: span 2; }
 </style>
 </head>
 <body>
