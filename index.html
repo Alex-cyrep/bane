@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Две бани в аренду — Баня №1 и Баня №2</title>
+<style>
+  :root{
+    --bg:#14100c;
+    --panel:#1e1813;
+    --panel-2:#262019;
+    --text:#f2ece2;
+    --muted:#b3a896;
+    --accent:#e8a24a;
+    --accent-2:#c96f2e;
+    --ok:#3ecf8e;
+    --err:#ff6b5c;
+    --border:#3a3128;
+    --radius:16px;
+    --shadow:0 12px 40px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.65;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  img{max-width:100%;display:block}
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(12px);
+    background:rgba(20,16,12,.78);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    max-width:1180px;margin:0 auto;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+  .logo .flame{font-size:1.4rem}
+  .logo span{color:var(--accent)}
+  nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+  nav a{color:var(--muted);font-size:.95rem}
+  nav a:hover{color:var(--text);text-decoration:none}
+  .phone-btn{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    color:#1a130c;padding:9px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+  }
+  .phone-btn:hover{text-decoration:none;transform:translateY(-1px)}
+
+  /* HERO */
+  .hero{
+    position:relative;overflow:hidden;
+    padding:100px 20px 80px;text-align:center;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 20% 20%,rgba(232,162,74,.22),transparent 55%),
+      radial-gradient(circle at 80% 60%,rgba(201,111,46,.20),transparent 55%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:820px;margin:0 auto;position:relative}
+  .hero .tag{
+    display:inline-block;padding:6px 16px;border-radius:999px;font-size:.8rem;
+    background:rgba(232,162,74,.14);color:var(--accent);border:1px solid rgba(232,162,74,.3);
+    margin-bottom:22px;letter-spacing:.5px;font-weight:600;
+  }
+  .hero h1{
+    font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.12;margin-bottom:20px;
+    background:linear-gradient(90deg,#ffd28a,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{color:var(--muted);max-width:600px;margin:0 auto 32px;font-size:1.1rem}
+  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 28px;border-radius:999px;font-weight:700;font-size:1rem;
+    border:none;cursor:pointer;transition:.25s;
+  }
+  .btn-primary{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#1a130c;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,162,74,.35)}
+  .btn-ghost{
+    background:transparent;color:var(--text);border:1px solid var(--border);
+  }
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-stats{
+    display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:52px;
+  }
+  .stat{text-align:center}
+  .stat b{display:block;font-size:1.8rem;color:var(--accent)}
+  .stat span{font-size:.85rem;color:var(--muted)}
+
+  /* SECTIONS */
+  section{max-width:1180px;margin:0 auto;padding:70px 20px}
+  h2{font-size:1.9rem;margin-bottom:10px}
+  h2 .num{color:var(--accent);margin-right:10px;font-weight:800}
+  .lead{color:var(--muted);margin-bottom:40px;max-width:720px}
+
+  /* BATHS */
+  .baths{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+  .bath{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;transition:.3s;display:flex;flex-direction:column;
+  }
+  .bath:hover{border-color:var(--accent);transform:translateY(-5px);box-shadow:var(--shadow)}
+  .bath-img{
+    height:220px;position:relative;display:grid;place-items:center;
+    font-size:3.6rem;
+  }
+  .bath-1 .bath-img{background:linear-gradient(135deg,#3b2a1c,#7a4a22,#c96f2e)}
+  .bath-2 .bath-img{background:linear-gradient(135deg,#1c2a3b,#22507a,#2e8fc9)}
+  .bath-img::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.12),transparent 60%);
+  }
+  .badge{
+    position:absolute;top:14px;left:14px;z-index:2;
+    background:rgba(0,0,0,.6);backdrop-filter:blur(6px);
+    padding:5px 12px;border-radius:999px;font-size:.75rem;font-weight:700;
+    color:var(--accent);border:1px solid rgba(232,162,74,.35);
+  }
+  .bath-body{padding:26px;display:flex;flex-direction:column;flex:1}
+  .bath-body h3{font-size:1.35rem;margin-bottom:6px}
+  .bath-body .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .bath-body p.desc{color:var(--muted);font-size:.95rem;margin-bottom:18px}
+  .features{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-bottom:22px}
+  .features li{font-size:.88rem;color:var(--muted);display:flex;gap:7px;align-items:flex-start}
+  .features li::before{content:"✓";color:var(--ok);font-weight:800;flex:0 0 auto}
+  .bath-foot{
+    margin-top:auto;padding-top:18px;border-top:1px dashed var(--border);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .price b{font-size:1.5rem;color:var(--accent)}
+  .price span{font-size:.8rem;color:var(--muted);display:block}
+  .btn-sm{padding:10px 20px;font-size:.9rem}
+
+  /* GALLERY */
+  .gallery{display:grid;gap:14px;grid-template-columns:repeat(4,1fr);grid-auto-rows:140px}
+  .gallery div{
+    border-radius:14px;border:1px solid var(--border);
+    display:grid;place-items:center;font-size:2rem;color:rgba(255,255,255,.7);
+    transition:.3s;
+  }
+  .gallery div:hover{transform:scale(1.03);border-color:var(--accent)}
+  .gallery div:nth-child(1){grid-column:span 2;grid-row:span 2;background:linear-gradient(135deg,#3b2a1c,#7a4a22)}
+  .gallery div:nth-child(2){background:linear-gradient(135deg,#1c2a3b,#22507a)}
+  .gallery div:nth-child(3){background:linear-gradient(135deg,#2a1c3b,#50227a)}
+  .gallery div:nth-child(4){background:linear-gradient(135deg,#1c3b2a,#227a4a)}
+  .gallery div:nth-child(5){background:linear-gradient(135deg,#3b1c2a,#7a2250)}
+  .gallery div:nth-child(6){grid-column:span 2;background:linear-gradient(135deg,#3b3520,#7a6b22)}
+
+  /* BOOKING */
+  .booking-wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;
+  }
+  .booking-info{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:30px}
+  .booking-info h3{margin-bottom:14px;font-size:1.2rem}
+  .info-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .info-row:last-child{border:none}
+  .info-row .ico{font-size:1.3rem;flex:0 0 auto}
+  .info-row b{display:block;font-size:.95rem;margin-bottom:2px}
+  .info-row span{font-size:.88rem;color:var(--muted)}
+
+  form.booking{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:30px;
+  }
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:.88rem;color:var(--muted);margin-bottom:6px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;border-radius:10px;
+    background:var(--panel-2);border:1px solid var(--border);
+    color:var(--text);font-size:1rem;outline:none;transition:.2s;
+    font-family:inherit;
+  }
+  .field textarea{resize:vertical;min-height:80px}
+  .field input:focus,.field select:focus,.field textarea:focus{
+    border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,162,74,.15)
+  }
+  .field.valid input,.field.valid select{border-color:var(--ok)}
+  .field.invalid input,.field.invalid select{border-color:var(--err)}
+  .msg{font-size:.8rem;margin-top:6px;min-height:1em}
+  .field.invalid .msg{color:var(--err)}
+  .field.valid .msg{color:var(--ok)}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .total{
+    background:var(--panel-2);border:1px dashed var(--border);border-radius:12px;
+    padding:14px 18px;margin:8px 0 18px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .total b{font-size:1.3rem;color:var(--accent)}
+  .total span{font-size:.85rem;color:var(--muted)}
+  .result{
+    margin-top:16px;padding:14px;border-radius:10px;font-size:.9rem;
+    display:none;border:1px dashed var(--border);
+  }
+  .result.show{display:block}
+  .result.ok{color:var(--ok);border-color:var(--ok)}
+  .result.bad{color:var(--err);border-color:var(--err)}
+
+  /* FAQ */
+  .faq{display:grid;gap:12px;max-width:820px}
+  details{
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:0;overflow:hidden;transition:.2s;
+  }
+  details[open]{border-color:var(--accent)}
+  summary{
+    padding:18px 22px;cursor:pointer;font-weight:600;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--accent);font-size:1.3rem;transition:.2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 22px 20px;color:var(--muted);font-size:.95rem}
+
+  /* CONTACTS / FOOTER */
+  .contacts{
+    display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    margin-bottom:50px;
+  }
+  .contact-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px;
+  }
+  .contact-card .ico{font-size:1.6rem;margin-bottom:10px}
+  .contact-card b{display:block;margin-bottom:4px}
+  .contact-card a,.contact-card span{color:var(--muted);font-size:.92rem}
+  .contact-card a:hover{color:var(--accent)}
+
+  footer{
+    text-align:center;padding:40px 20px;color:var(--muted);
+    border-top:1px solid var(--border);font-size:.88rem;
+  }
+  footer b{color:var(--accent)}
+
+  @media(max-width:800px){
+    .booking-wrap{grid-template-columns:1fr}
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px}
+    .gallery div:nth-child(1){grid-column:span 2;grid-row:span 1}
+    .gallery div:nth-child(6){grid-column:span 2}
+    .hero-stats{gap:26px}
+    nav ul{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="flame">🔥</span>Баня у Петра <span>на дровах</span></div>
+    <ul>
+      <li><a href="#baths">Наши бани</a></li>
+      <li><a href="#gallery">Галерея</a></li>
+      <li><a href="#booking">Бронирование</a></li>
+      <li><a href="#faq">Вопросы</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+    <a href="tel:+79506283335" class="phone-btn">📞 +7 (950) 628-33-35</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="tag">🌿 Русская баня на дровах · Работаем 24/7</div>
+    <h1>Две бани в аренду —<br>жаркая парная на любой вкус</h1>
+    <p>Большая семейная баня на дровах и уютная компактная. Бронируйте почасово — заезд от 2 часов, без выходных.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn btn-primary">Забронировать</a>
+      <a href="#baths" class="btn btn-ghost">Сравнить бани</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>2</b><span>уникальные бани</span></div>
+      <div class="stat"><b>от 1200 ₽</b><span>за час аренды</span></div>
+      <div class="stat"><b>24/7</b><span>приём заявок</span></div>
+      <div class="stat"><b>200+</b><span>довольных гостей</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BATHS -->
+<section id="baths">
+  <h2><span class="num">01</span>Наши бани</h2>
+  <p class="lead">Два разных формата под разные компании. Обе — с настоящей печью, вениками и всем необходимым для парения.</p>
+
+  <div class="baths">
+    <!-- BATH 1 -->
+    <article class="bath bath-1">
+      <div class="bath-img">
+        <span class="badge">🔥 Хит бронирований</span>
+        🪵
+      </div>
+      <div class="bath-body">
+        <h3>Баня №1 «Для большой компании»</h3>
+        <div class="sub">Большая семейная · русская парная</div>
+        <p class="desc">Просторная баня на дровах для большой компании или семьи. Русская парная, комфортная зона отдыха и летняя веранда.</p>
+        <ul class="features">
+          <li>До 8 человек</li>
+          <li>Парная на дровах</li>
+          <li>Комната отдыха</li>
+          <li>Летняя веранда</li>
+          <li>Мангал и шампуры</li>
+          <li>ТВ и Wi-Fi</li>
+          <li>Чайник, посуда</li>
+          <li>Парковка</li>
+        </ul>
+        <div class="bath-foot">
+          <div class="price"><b>2 200 ₽</b><span>за час · минимум 2 часа</span></div>
+          <a href="#booking" class="btn btn-primary btn-sm" data-bath="Баня №1 «Дубовая»">Выбрать</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- BATH 2 -->
+    <article class="bath bath-2">
+      <div class="bath-img">
+        <span class="badge">🌿 Для двоих</span>
+        ❄️
+      </div>
+      <div class="bath-body">
+        <h3>Баня №2 «Для небольшой компании »</h3>
+        <div class="sub">Компактная · баня</div>
+        <p class="desc">Уютная баня для пары или небольшой компании. Баня и  купель с прохладной водой и зона для чаепития.</p>
+        <ul class="features">
+          <li>До 4 человек</li>
+          <li>Баня для небольшой компании</li>
+          <li>Купель с водой</li>
+          <li>Зона чаепития</li>
+          <li>Ароматерапия</li>
+          <li>Wi-Fi</li>
+        </ul>
+        <div class="bath-foot">
+          <div class="price"><b>1 200 ₽</b><span>за час · минимум 2 часа</span></div>
+          <a href="#booking" class="btn btn-primary btn-sm" data-bath="Баня №2 «Для небольшой компании»">Выбрать</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <h2><span class="num">02</span>Галерея</h2>
+  <p class="lead">Плейсхолдеры — замените на реальные фото ваших бань. Достаточно вставить <code style="color:#9fd1ff">&lt;img&gt;</code> в нужные блоки.</p>
+  <div class="gallery">
+    <div>🛖</div>
+    <div>🪵</div>
+    <div>💦</div>
+    <div>🌿</div>
+    <div>🔥</div>
+    <div>🍵</div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <h2><span class="num">03</span>Бронирование</h2>
+  <p class="lead">Заполните форму — мы свяжемся с вами в течение 15 минут и подтвердим время. Оплата при заезде.</p>
+
+  <div class="booking-wrap">
+    <div class="booking-info">
+      <h3>Как проходит бронирование</h3>
+      <div class="info-row">
+        <div class="ico">1️⃣</div>
+        <div><b>Оставьте заявку</b><span>Выберите баню, дату и количество часов</span></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">2️⃣</div>
+        <div><b>Мы подтверждаем</b><span>Перезваниваем в течение 15 минут</span></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">3️⃣</div>
+        <div><b>Вы приезжаете</b><span>Оплата на месте, наличными или картой</span></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">🎁</div>
+        <div><b>Бонус</b><span>При бронировании от 4 часов — веники в подарок</span></div>
+      </div>
+    </div>
+
+    <form class="booking" id="bookingForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="name">Ваше имя</label>
+        <input type="text" id="name" placeholder="Иван" autocomplete="name">
+        <div class="msg"></div>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+        <div class="msg"></div>
+      </div>
+
+      <div class="field" id="f-bath">
+        <label for="bath">Баня</label>
+        <select id="bath">
+          <option value="">— Выберите баню —</option>
+          <option value="Баня №1 «Дубовая»|2200">Баня №1 «Для большой компании» — 2 200 ₽/час</option>
+          <option value="Баня №2 «Кедровая»|1200">Баня №2 «Для небольшой компании» — 1 200 ₽/час</option>
+        </select>
+        <div class="msg"></div>
+      </div>
+
+      <div class="row-2">
+        <div class="field" id="f-date">
+          <label for="date">Дата</label>
+          <input type="date" id="date">
+          <div class="msg"></div>
+        </div>
+        <div class="field" id="f-hours">
+          <label for="hours">Количество часов</label>
+          <select id="hours">
+            <option value="2">2 часа</option>
+            <option value="3">3 часа</option>
+            <option value="4">4 часа</option>
+            <option value="5">5 часов</option>
+            <option value="6">6 часов</option>
+            <option value="8">8 часов</option>
+          </select>
+          <div class="msg"></div>
+        </div>
+      </div>
+
+      <div class="total">
+        <div><span>Предварительная стоимость</span></div>
+        <b id="totalPrice">— ₽</b>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Забронировать</button>
+      <div class="result" id="result"></div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2><span class="num">04</span>Частые вопросы</h2>
+  <p class="lead">Всё, что важно знать перед визитом.</p>
+  <div class="faq">
+    <details>
+      <summary>Какое минимальное время аренды?</summary>
+      <p>Минимум — 2 часа. При бронировании от 4 часов дарим веники.</p>
+    </details>
+    <details>
+      <summary>Можно ли прийти со своими вениками и напитками?</summary>
+      <p>Да, можно. У нас есть холодильник и посуда. Единственное ограничение — не курить внутри помещений.</p>
+    </details>
+    <details>
+      <summary>Что входит в стоимость?</summary>
+      <p>Помещение бани, дрова, полотенца, простыни, шампуни и чайник. Веники — при аренде от 4 часов или за доплату.</p>
+    </details>
+    <details>
+      <summary>Можно ли приехать с детьми?</summary>
+      <p>Да, дети допускаются под присмотром взрослых. Для маленьких гостей есть отдельная прохладная комната отдыха в Бане №1.</p>
+    </details>
+    <details>
+      <summary>Как отменить бронь?</summary>
+      <p>Бесплатная отмена — не позднее чем за 6 часов до начала. Позвоните или напишите в WhatsApp.</p>
+    </details>
+    <details>
+      <summary>Есть ли парковка?</summary>
+      <p>Да, бесплатная парковка на 4 машины прямо у входа.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts">
+  <h2><span class="num">05</span>Контакты</h2>
+  <p class="lead">Приезжайте или звоните — мы на связи круглосуточно.</p>
+  <div class="contacts">
+    <div class="contact-card">
+      <div class="ico">📍</div>
+      <b>Адрес</b>
+      <span>г. Дзержинск  ул. Солнечная  27<br></span>
+    </div>
+    <div class="contact-card">
+      <div class="ico">📞</div>
+      <b>Телефон</b>
+      <a href="tel:+79991234567">+7 (950) 628-33-35</a><br>
+      <a href="https://wa.me/+79506283335">WhatsApp</a> · <a href="https://t.me/username">Telegram</a>
+    </div>
+    <div class="contact-card">
+      <div class="ico">🕒</div>
+      <b>Режим работы</b>
+      <span>Приём заявок — 24/7<br>Визиты — по предварительной брони</span>
+    </div>
+    <div class="contact-card">
+      <div class="ico">💳</div>
+      <b>Оплата</b>
+      <span>Наличные, карта, перевод<br>Оплата при заезде</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 <b>Баня у Петра на дровах</b> · Все права защищены · Сделано с 🔥
+</footer>
+
+<script>
+(function(){
+  const form = document.getElementById('bookingForm');
+  const result = document.getElementById('result');
+  const bathSel = document.getElementById('bath');
+  const hoursSel = document.getElementById('hours');
+  const dateInput = document.getElementById('date');
+  const totalPrice = document.getElementById('totalPrice');
+
+  // Установить завтра как минимальную дату
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  dateInput.min = tomorrow.toISOString().split('T')[0];
+
+  // Валидация
+  const rules = {
+    name: {
+      test: v => /^[A-Za-zА-Яа-яЁё\s-]{2,40}$/.test(v.trim()),
+      msg: 'Введите имя (только буквы, 2–40 символов)'
+    },
+    phone: {
+      test: v => /^(\+7|8)?[\s\-\(\)]*\d{3}[\s\-\(\)]*\d{3}[\s\-\(\)]*\d{2}[\s\-\(\)]*\d{2}$/.test(v.trim()),
+      msg: 'Введите телефон в формате +7 (999) 123-45-67'
+    },
+    bath: {
+      test: v => v !== '',
+      msg: 'Выберите баню'
+    },
+    date: {
+      test: v => v && new Date(v) >= tomorrow,
+      msg: 'Дата должна быть не раньше завтрашнего дня'
+    }
+  };
+
+  function wrap(id){ return document.getElementById('f-' + id); }
+
+  function validateField(id){
+    const input = document.getElementById(id);
+    const field = wrap(id);
+    const msg = field.querySelector('.msg');
+    const value = input.value;
+    const rule = rules[id];
+    const ok = rule.test(value);
+    field.classList.toggle('valid', ok && value !== '');
+    field.classList.toggle('invalid', !ok && value !== '');
+    msg.textContent = !ok && value !== '' ? rule.msg : (ok && value ? '✓' : '');
+    return ok;
+  }
+
+  // Пересчёт стоимости
+  function calcTotal(){
+    const bathVal = bathSel.value;
+    const hours = parseInt(hoursSel.value, 10) || 0;
+    if (!bathVal || !hours){
+      totalPrice.textContent = '— ₽';
+      return;
+    }
+    const price = parseInt(bathVal.split('|')[1], 10);
+    const sum = price * hours;
+    totalPrice.textContent = sum.toLocaleString('ru-RU') + ' ₽';
+  }
+
+  ['name','phone','bath','date'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => validateField(id));
+    el.addEventListener('change', () => validateField(id));
+    el.addEventListener('blur', () => validateField(id));
+  });
+
+  bathSel.addEventListener('change', calcTotal);
+  hoursSel.addEventListener('change', calcTotal);
+  calcTotal();
+
+  // Кнопка «Выбрать» в карточке бани — подставляет баню в форму
+  document.querySelectorAll('[data-bath]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bathName = btn.dataset.bath;
+      [...bathSel.options].forEach(opt => {
+        if (opt.value.startsWith(bathName)) bathSel.value = opt.value;
+      });
+      validateField('bath');
+      calcTotal();
+    });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const ids = ['name','phone','bath','date'];
+    const allOk = ids.map(validateField).every(Boolean);
+    result.classList.add('show');
+    result.classList.toggle('ok', allOk);
+    result.classList.toggle('bad', !allOk);
+
+    if (allOk){
+      const name = document.getElementById('name').value.trim();
+      const bath = bathSel.options[bathSel.selectedIndex].text;
+      const date = dateInput.value;
+      const hours = hoursSel.value;
+      const sum = totalPrice.textContent;
+      result.textContent = `✓ Спасибо, ${name}! Заявка на «${bath}» на ${date}, ${hours} ч, ${sum} принята. Мы позвоним в течение 15 минут.`;
+      form.reset();
+      totalPrice.textContent = '— ₽';
+      ids.forEach(id => {
+        wrap(id).classList.remove('valid','invalid');
+        wrap(id).querySelector('.msg').textContent = '';
+      });
+    } else {
+      result.textContent = '✗ Пожалуйста, исправьте отмеченные поля.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
