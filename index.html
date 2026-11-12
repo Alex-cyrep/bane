@@ -185,6 +185,29 @@
     object-fit:contain;
   }
 
+  /* Подзаголовки разделов галереи */
+  .gallery-subtitle{
+    font-size:1.35rem;
+    margin:44px 0 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .gallery-subtitle::before{
+    content:"";
+    display:inline-block;
+    width:4px;
+    height:1.1em;
+    background:var(--accent);
+    border-radius:2px;
+  }
+  .gallery-subtitle .num{
+    color:var(--accent);
+    font-weight:800;
+    margin-right:2px;
+  }
+  .gallery-subtitle:first-of-type{margin-top:0}
+
   /* BOOKING */
   .booking-wrap{max-width:720px;margin:0 auto}
   .booking-info{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:30px}
@@ -244,6 +267,7 @@
       border-top: 1px dashed var(--border);
     }
     nav ul{display:none}
+    .gallery-subtitle{font-size:1.15rem;margin:32px 0 14px}
   }
 </style>
 </head>
@@ -314,7 +338,7 @@
           <li>Комната отдыха</li>
           <li>Отапливаемая веранда</li>
           <li>Крытая мангальная зона</li>
-          <li>Чайник, микроволновка, холодильник</li> 
+          <li>Чайник, микроволновка, холодильник</li>
           <li>ТВ</li>
           <li>Парковка</li>
         </ul>
@@ -344,7 +368,7 @@
           <li>Крытая мангальная зона</li>
           <li>Чайник, микроволновка, холодильник</li>
           <li>Парковка</li>
-          </ul>
+        </ul>
         <div class="bath-foot">
           <div class="price"><b>1 000 ₽</b><span>за час · минимум 3 часа</span></div>
           <a href="tel:+79506283335" class="btn btn-primary btn-sm">📞 Забронировать</a>
@@ -358,18 +382,29 @@
 <section id="gallery">
   <h2><span class="num">02</span>Галерея</h2>
   <p class="lead">Схема проезда и фотографии наших бань.</p>
+
+  <!-- Схема проезда — первое фото, во всю ширину -->
   <div class="gallery">
     <div class="map">
       <img src="image/cx.png" alt="Схема проезда">
     </div>
-    <!-- Добавьте больше фото по образцу ниже, когда будут готовы: -->
-    <div><img src="image/b11.jpg" alt="Комната отдыха"></div>
-    <div><img src="image/b2.jpg" alt="Купель"></div>
-    <div><img src="image/b6.jpg" alt="Купель"></div>
-    <div><img src="image/b3.jpg" alt="Купель"></div>
-    <div class="orig"><img src="image/b1.jpg" alt="Парная"></div>
-    <div><img src="image/b5.jpg" alt="Купель"></div>
-    <div><img src="image/b7.jpg" alt="Купель"></div>
+  </div>
+
+  <!-- Раздел: Баня №1 -->
+  <h3 class="gallery-subtitle"><span class="num">🔥</span>Баня №1 — Большая</h3>
+  <div class="gallery">
+    <div><img src="image/b11.jpg" alt="Баня №1 — общий вид"></div>
+    <div><img src="image/b2.jpg" alt="Баня №1 — комната отдыха"></div>
+    <div><img src="image/b6.jpg" alt="Баня №1 — зона отдыха"></div>
+    <div><img src="image/b3.jpg" alt="Баня №1 — купель"></div>
+    <div class="orig"><img src="image/b1.jpg" alt="Баня №1 — парная"></div>
+  </div>
+
+  <!-- Раздел: Баня №2 -->
+  <h3 class="gallery-subtitle"><span class="num">🌿</span>Баня №2 — Малая</h3>
+  <div class="gallery">
+    <div><img src="image/b5.jpg" alt="Баня №2 — общий вид"></div>
+    <div><img src="image/b7.jpg" alt="Баня №2 — парная"></div>
   </div>
 </section>
 
